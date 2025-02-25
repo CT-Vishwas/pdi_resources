@@ -20,10 +20,14 @@ function Header() {
         </a>
         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li>
-            <Link to="/">App</Link>
+            <Link className="nav-link" to="/">
+              App
+            </Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link className="nav-link" to="/about">
+              About
+            </Link>
           </li>
         </ul>
         <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">

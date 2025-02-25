@@ -8,6 +8,7 @@ import {
 } from "react-router";
 import AboutPage from './Pages/AboutPage';
 import Error404 from './Pages/Error404';
+import AddListing from './Pages/AddListing';
 
 const browserRouter = createBrowserRouter(
   [{
@@ -15,7 +16,8 @@ const browserRouter = createBrowserRouter(
     errorElement: <Error404/>,
     children: [
       {path:'/', element: <HomePage />},
-      {path: 'about', element: <AboutPage />}
+      {path: 'about', element: <AboutPage />},
+      {path: 'addListing', element: <AddListing />}
     ]
   }]
 )
