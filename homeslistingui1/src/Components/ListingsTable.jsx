@@ -1,10 +1,10 @@
 import { Button, Table } from "react-bootstrap";
 
 export default function ListingsTable({ listings, onSelectListing }) {
-  const listOfProperties =
-    listings &&
-    listings.map((property, idx) => (
-      <tr key={property.id}>
+  let listOfProperties = [];
+  if (listings) {
+    listOfProperties = listings.map((property, idx) => (
+      <tr key={property._id}>
         <td>{idx + 1}</td>
         <td>{property.name}</td>
         <td>{property.price}</td>
@@ -16,6 +16,7 @@ export default function ListingsTable({ listings, onSelectListing }) {
         </td>
       </tr>
     ));
+  }
   return (
     <>
       {listOfProperties && listOfProperties.length > 0 ? (

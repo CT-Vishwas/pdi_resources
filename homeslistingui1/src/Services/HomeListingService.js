@@ -1,18 +1,30 @@
 
-const BASE_URL = 'http://localhost:3000/'
+const BASE_URL = 'http://localhost:3000/properties'
 
-const getAllListings = async () => {
-    const url = BASE_URL+'properties'
+export const getAllListings = async () => {
     const options = {method: 'GET'};
-
-try {
-    const response = await fetch(url, options);
-    const data = await response.json();
-    console.log(data);
-    return data;
-} catch (error) {
-    console.error(error);
+    try {
+        const response = await fetch(BASE_URL, options);
+        const data = await response.json();
+        console.log('In service',data);
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
 }
-}
 
-export default getAllListings;
+export const createListing = async (listing)=>{
+    const options = {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(listing)
+      };
+      
+      try {
+          const response = await fetch(BASE_URL, options);
+          const data = await response.json();
+          console.log(data);
+      } catch (error) {
+          console.error(error);
+      }
+}
