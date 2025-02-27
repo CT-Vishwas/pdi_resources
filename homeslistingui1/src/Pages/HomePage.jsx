@@ -3,13 +3,11 @@ import ListingsTable from "../Components/ListingsTable";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import { getAllListings } from "../Services/HomeListingService";
-import "./HomePage.styles.css";
 
-// const data = [
-//   { id: 1, name: "Luxury Apt", price: 20222, location: "Bengluru" },
-//   { id: 2, name: "VKS Apt", price: 20222, location: "Bengluru" },
-// ];
+const data = [
+  { id: 1, name: "Luxury Apt", price: 20222, location: "Bengluru" },
+  { id: 2, name: "VKS Apt", price: 20222, location: "Bengluru" },
+];
 
 function HomePage() {
   const [listings, setListings] = useState([]);
@@ -24,13 +22,7 @@ function HomePage() {
   };
 
   useEffect(() => {
-    getAllListings()
-      .then((data) => {
-        setListings(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching products:", error);
-      });
+    setListings(data);
   }, []);
 
   const addProperty = () => {
@@ -45,6 +37,9 @@ function HomePage() {
       <Container>
         <Col>
           <Row>
+            <Button onClick={addProperty}>Add Listing</Button>
+          </Row>
+          <Row>
             <ListingsTable
               listings={listings}
               onSelectListing={handleSelectedListing}
@@ -56,11 +51,6 @@ function HomePage() {
             handleClose={handleClose}
           />
         </Col>
-        <Row>
-          <Button className="btn btn-success" onClick={addProperty}>
-            Add Listing
-          </Button>
-        </Row>
       </Container>
     </>
   );

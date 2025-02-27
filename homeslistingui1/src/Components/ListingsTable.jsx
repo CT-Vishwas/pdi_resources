@@ -1,22 +1,19 @@
 import { Button, Table } from "react-bootstrap";
 
 export default function ListingsTable({ listings, onSelectListing }) {
-  let listOfProperties = [];
-  if (listings) {
-    listOfProperties = listings.map((property, idx) => (
-      <tr key={property._id}>
-        <td>{idx + 1}</td>
-        <td>{property.name}</td>
-        <td>{property.price}</td>
-        <td>{property.location}</td>
-        <td>
-          <Button variant="primary" onClick={() => onSelectListing(property)}>
-            View
-          </Button>{" "}
-        </td>
-      </tr>
-    ));
-  }
+  const listOfProperties = listings.map((property, idx) => (
+    <tr key={property.id}>
+      <td>{idx + 1}</td>
+      <td>{property.name}</td>
+      <td>{property.price}</td>
+      <td>{property.location}</td>
+      <td>
+        <Button variant="primary" onClick={() => onSelectListing(property)}>
+          View
+        </Button>{" "}
+      </td>
+    </tr>
+  ));
   return (
     <>
       {listOfProperties && listOfProperties.length > 0 ? (
