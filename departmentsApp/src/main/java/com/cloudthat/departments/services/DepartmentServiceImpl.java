@@ -1,12 +1,14 @@
 package com.cloudthat.departments.services;
 
 import com.cloudthat.departments.entities.Department;
+import com.cloudthat.departments.exceptions.ResourceNotFoundException;
 import com.cloudthat.departments.models.DepartmentModel;
 import com.cloudthat.departments.repositories.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Service
@@ -14,6 +16,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Autowired
     DepartmentRepository departmentRepository;
+
 
     @Override
     public DepartmentModel createNewDepartment(DepartmentModel departmentModel) {
@@ -37,7 +40,12 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public DepartmentModel updateDepartment(Integer id, DepartmentModel departmentModel) {
-        Department departmentDb = departmentRepository.findById(id).get();
+        Department departmentDb = null;
+        try {
+            departmentDb = departmentRepository.findById(id).get();
+        } catch (NoSuchElementException e) {
+            throw new ResourceNotFoundException("DEPARTMENT","Id", id.longValue());
+        }
         if(Objects.nonNull(departmentModel.getLocation()) && "".equalsIgnoreCase(departmentModel.getLocation())){
             departmentDb.setLocation(departmentModel.getLocation());
         }

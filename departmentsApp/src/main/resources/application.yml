@@ -1,6 +1,15 @@
 spring:
     application:
         name: departments
+#    datasource:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        password: root
+#        url: jdbc:mysql://localhost:3306/departmentsDB
+#        username: root
+#    jpa:
+#        hibernate:
+#            ddl-auto: update
+#        show-sql: true
     datasource:
         url: jdbc:h2:mem:mydb
         username: sa
