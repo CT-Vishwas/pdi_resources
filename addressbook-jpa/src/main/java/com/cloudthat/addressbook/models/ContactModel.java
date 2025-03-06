@@ -1,6 +1,13 @@
-package com.cloudthat.addressbook.entities;
+package com.cloudthat.addressbook.models;
 
+import com.cloudthat.addressbook.entities.Address;
+import com.cloudthat.addressbook.entities.Email;
+import com.cloudthat.addressbook.entities.Gender;
+import com.cloudthat.addressbook.entities.Tag;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.TrueFalseConverter;
@@ -9,47 +16,22 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "contact_manager")
-public class Contact {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "contact_id")
+public class ContactModel {
     private Long id;
-    @Column(name = "contact_name", length = 30)
+    @NotBlank
+    @Size(min = 3, max = 30, message = "Name must be between 3 & 30 characters")
     private String name;
-    @Column(name = "contact_phone", length = 10)
+    @NotBlank
+    @Size(min = 10, max = 10, message = "Phone Number must be 10 characters")
     private String phoneNumber;
-
-    @Enumerated(EnumType.ORDINAL)
+    @NotNull(message = "Gender cannot be null")
     private Gender gender;
-
-    @Embedded
     private Address address;
-
-//    @Convert(converter = YesNoConverter.class)
-    @Convert(converter = TrueFalseConverter.class)
-    private boolean isActive = false;
-
-    @CreationTimestamp
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    private Instant updatedAt;
-
-    @OneToMany(mappedBy = "contact",cascade = CascadeType.ALL, orphanRemoval = true)
+    private boolean isActive;
     private List<Email> emails = new ArrayList<>();
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "contact_tag",
-            joinColumns = @JoinColumn(name = "contact_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
     private List<Tag> tags = new ArrayList<>();
 
-    public Contact() {
+    public ContactModel() {
     }
 
     public Long getId() {
@@ -98,22 +80,6 @@ public class Contact {
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public List<Email> getEmails() {

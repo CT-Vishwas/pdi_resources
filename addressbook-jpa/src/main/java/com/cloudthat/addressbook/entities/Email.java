@@ -9,6 +9,7 @@ public class Email {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 50)
     private String emailAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
