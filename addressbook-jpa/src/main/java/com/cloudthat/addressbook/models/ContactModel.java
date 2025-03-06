@@ -4,15 +4,11 @@ import com.cloudthat.addressbook.entities.Address;
 import com.cloudthat.addressbook.entities.Email;
 import com.cloudthat.addressbook.entities.Gender;
 import com.cloudthat.addressbook.entities.Tag;
-import jakarta.persistence.*;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.type.TrueFalseConverter;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +24,8 @@ public class ContactModel {
     private Gender gender;
     private Address address;
     private boolean isActive;
-    private List<Email> emails = new ArrayList<>();
-    private List<Tag> tags = new ArrayList<>();
+    private List<EmailModel> emails = new ArrayList<>();
+    private List<TagModel> tags = new ArrayList<>();
 
     public ContactModel() {
     }
@@ -82,19 +78,19 @@ public class ContactModel {
         isActive = active;
     }
 
-    public List<Email> getEmails() {
+    public List<EmailModel> getEmails() {
         return emails;
     }
 
-    public void setEmails(List<Email> emails) {
+    public void setEmails(List<EmailModel> emails) {
         this.emails = emails;
     }
 
-    public List<Tag> getTags() {
+    public List<TagModel> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<TagModel> tags) {
         this.tags = tags;
     }
 }

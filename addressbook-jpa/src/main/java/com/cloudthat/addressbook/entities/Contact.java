@@ -28,7 +28,6 @@ public class Contact {
     @Embedded
     private Address address;
 
-//    @Convert(converter = YesNoConverter.class)
     @Convert(converter = TrueFalseConverter.class)
     private boolean isActive = false;
 
