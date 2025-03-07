@@ -93,4 +93,18 @@ public class ContactModel {
     public void setTags(List<TagModel> tags) {
         this.tags = tags;
     }
+
+    @Override
+    public String toString() {
+        return "ContactModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender=" + gender +
+                ", address=" + address +
+                ", isActive=" + isActive +
+                ", emails=" + emails +
+                ", tags=" + tags +
+                '}';
+    }
 }

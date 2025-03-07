@@ -8,6 +8,10 @@ public class TagModel {
     public TagModel() {
     }
 
+    public TagModel(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
@@ -22,5 +26,13 @@ public class TagModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "TagModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

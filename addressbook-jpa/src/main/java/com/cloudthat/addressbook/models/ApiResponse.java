@@ -2,7 +2,7 @@ package com.cloudthat.addressbook.models;
 
 import java.util.SequencedCollection;
 
-public class ApiResponse<L extends SequencedCollection<E>> {
+public class ApiResponse{
     private String message;
     private Boolean status;
     private Object data;

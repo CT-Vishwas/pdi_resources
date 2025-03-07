@@ -20,6 +20,10 @@ public class Tag {
     public Tag() {
     }
 
+    public Tag(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
@@ -42,5 +46,14 @@ public class Tag {
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", contacts=" + contacts +
+                '}';
     }
 }

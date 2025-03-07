@@ -1,5 +1,6 @@
 package com.cloudthat.addressbook.services;
 
+import com.cloudthat.addressbook.entities.Gender;
 import com.cloudthat.addressbook.models.ContactModel;
 import jakarta.validation.Valid;
 
@@ -13,4 +14,6 @@ public interface ContactService {
     Optional<ContactModel> getContactById(Long id);
 
     ContactModel createContact(@Valid ContactModel contactModel);
+
+    List<ContactModel> getContactsByGender(Gender gender);
 }

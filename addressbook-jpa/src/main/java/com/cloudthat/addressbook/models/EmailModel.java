@@ -7,6 +7,18 @@ public class EmailModel {
     public EmailModel() {
     }
 
+    public EmailModel(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "EmailModel{" +
+                "id=" + id +
+                ", emailAddress='" + emailAddress + '\'' +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }

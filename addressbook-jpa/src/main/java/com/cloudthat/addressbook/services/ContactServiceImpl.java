@@ -2,12 +2,15 @@ package com.cloudthat.addressbook.services;
 
 import com.cloudthat.addressbook.entities.Contact;
 import com.cloudthat.addressbook.entities.Email;
+import com.cloudthat.addressbook.entities.Gender;
 import com.cloudthat.addressbook.entities.Tag;
 import com.cloudthat.addressbook.models.ContactModel;
 import com.cloudthat.addressbook.models.EmailModel;
 import com.cloudthat.addressbook.models.TagModel;
 import com.cloudthat.addressbook.repositories.ContactRepository;
 import com.cloudthat.addressbook.utilities.GenericConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,8 @@ import java.util.Optional;
 
 @Service
 public class ContactServiceImpl implements ContactService{
+
+    private static final Logger logger = LoggerFactory.getLogger(ContactServiceImpl.class);
 
     @Autowired
     private ContactRepository contactRepository;
@@ -33,8 +38,14 @@ public class ContactServiceImpl implements ContactService{
     @Override
     public ContactModel createContact(ContactModel contactModel) {
         Contact contact = contactConverter.convertToEntity(contactModel);
+        logger.debug("create contact: {}",contact);
         Contact savedContact = contactRepository.save(contact);
         return contactConverter.convertToModel(savedContact);
+    }
+
+    @Override
+    public List<ContactModel> getContactsByGender(Gender gender) {
+        return contactConverter.convertToModelList(contactRepository.findByGender(gender));
     }
 
     private GenericConverter<Contact, ContactModel> contactConverter = new GenericConverter<Contact, ContactModel>() {
@@ -44,6 +55,8 @@ public class ContactServiceImpl implements ContactService{
             contactModel.setId(entity.getId());
             contactModel.setName(entity.getName());
             contactModel.setGender(entity.getGender());
+            contactModel.setPhoneNumber(entity.getPhoneNumber());
+            contactModel.setAddress(entity.getAddress());
             contactModel.setEmails(emailConverter.convertToModelList(entity.getEmails()));
             contactModel.setTags(tagConverter.convertToModelList(entity.getTags()));
 
@@ -57,8 +70,14 @@ public class ContactServiceImpl implements ContactService{
             contact.setId(Model.getId());
             contact.setName(Model.getName());
             contact.setGender(Model.getGender());
-            contact.setEmails(emailConverter.convertToEntityList(Model.getEmails()));
-            contact.setTags(tagConverter.convertToEntityList(Model.getTags()));
+            contact.setPhoneNumber(Model.getPhoneNumber());
+            contact.setAddress(Model.getAddress());
+//            contact.setEmails(emailConverter.convertToEntityList(Model.getEmails()));
+//            contact.setTags(tagConverter.convertToEntityList(Model.getTags()));
+            List<EmailModel> emailModelList = Model.getEmails();
+            for (EmailModel emailModel: emailModelList){
+                emailModel
+            }
 
             return contact;
         }
@@ -80,6 +99,7 @@ public class ContactServiceImpl implements ContactService{
             email.setId(Model.getId());
             email.setEmailAddress(Model.getEmailAddress());
 
+            logger.debug("Email Convert to Entity: {}",email);
             return email;
         }
     };

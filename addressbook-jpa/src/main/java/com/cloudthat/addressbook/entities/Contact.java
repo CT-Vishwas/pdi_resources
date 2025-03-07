@@ -130,4 +130,20 @@ public class Contact {
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender=" + gender +
+                ", address=" + address +
+                ", isActive=" + isActive +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", emails=" + emails +
+                ", tags=" + tags +
+                '}';
+    }
 }

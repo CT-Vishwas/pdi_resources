@@ -19,6 +19,10 @@ public class Email {
     public Email() {
     }
 
+    public Email(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
     public Long getId() {
         return id;
     }
@@ -41,5 +45,14 @@ public class Email {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public String toString() {
+        return "Email{" +
+                "id=" + id +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", contact=" + contact +
+                '}';
     }
 }
