@@ -3,8 +3,10 @@ C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\j
 C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\controllers\RegistrationController.java
 C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\entities\User.java
 C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\entities\VerificationToken.java
+C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\event\listener\RegistrationCompleteEventListener.java
+C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\event\RegistrationCompleteEvent.java
 C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\models\UserModel.java
 C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\repositories\UserRepository.java
-C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\repositories\VeificationTokenRepository.java
+C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\repositories\VerificationTokenRepository.java
 C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\services\UserService.java
 C:\Users\VishwasKSingh\deloitte-workspace\pdi-workspace\basicsecurity\src\main\java\com\cloudthat\basicsecurity\services\UserServiceImpl.java
