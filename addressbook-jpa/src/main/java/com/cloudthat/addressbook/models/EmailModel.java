@@ -3,6 +3,7 @@ package com.cloudthat.addressbook.models;
 public class EmailModel {
     private Long id;
     private String emailAddress;
+    private Long contact;
 
     public EmailModel() {
     }
@@ -33,5 +34,13 @@ public class EmailModel {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public Long getContact() {
+        return contact;
+    }
+
+    public void setContact(Long contact) {
+        this.contact = contact;
     }
 }

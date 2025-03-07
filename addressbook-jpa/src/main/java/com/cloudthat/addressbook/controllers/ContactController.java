@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -51,6 +52,12 @@ public class ContactController {
     @GetMapping("/search")
     public ResponseEntity<ApiResponse> getContactsByGender(@RequestParam(value = "gender", defaultValue = "MALE") Gender gender){
         List<ContactModel> contactModels = contactService.getContactsByGender(gender);
+        return ResponseEntity.ok(new ApiResponse("Contacts fetched", true,contactModels));
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<ApiResponse> getPaginatedData(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "2") int size ){
+        Page<ContactModel> contactModels = contactService.getPaginatedData(page, size);
         return ResponseEntity.ok(new ApiResponse("Contacts fetched", true,contactModels));
     }
 

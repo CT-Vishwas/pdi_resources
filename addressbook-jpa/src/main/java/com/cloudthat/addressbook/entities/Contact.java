@@ -146,4 +146,22 @@ public class Contact {
                 ", tags=" + tags +
                 '}';
     }
+
+    public void addEmail(Email email){
+        emails.add(email);
+        email.setContact(this);
+    }
+
+    public  void removeEmail(Email email){
+        emails.remove(email);
+        email.setContact(null);
+    }
+
+    public void addTag(Tag tag){
+        tags.add(tag);
+    }
+
+    public void removeTag(Tag tag){
+        tags.remove(tag);
+    }
 }
