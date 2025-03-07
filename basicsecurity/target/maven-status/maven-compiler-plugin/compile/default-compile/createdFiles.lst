@@ -1,0 +1,10 @@
+com\cloudthat\basicsecurity\config\WebSecurityConfig.class
+com\cloudthat\basicsecurity\repositories\VeificationTokenRepository.class
+com\cloudthat\basicsecurity\services\UserService.class
+com\cloudthat\basicsecurity\controllers\RegistrationController.class
+com\cloudthat\basicsecurity\BasicsecurityApplication.class
+com\cloudthat\basicsecurity\entities\VerificationToken.class
+com\cloudthat\basicsecurity\repositories\UserRepository.class
+com\cloudthat\basicsecurity\models\UserModel.class
+com\cloudthat\basicsecurity\entities\User.class
+com\cloudthat\basicsecurity\services\UserServiceImpl.class
