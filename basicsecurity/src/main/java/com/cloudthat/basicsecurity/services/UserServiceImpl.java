@@ -1,14 +1,11 @@
 package com.cloudthat.basicsecurity.services;
 
-import com.cloudthat.basicsecurity.entities.Role;
+
 import com.cloudthat.basicsecurity.entities.VerificationToken;
 import com.cloudthat.basicsecurity.models.UserModel;
 import com.cloudthat.basicsecurity.repositories.UserRepository;
 import com.cloudthat.basicsecurity.repositories.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.cloudthat.basicsecurity.entities.User;
@@ -16,7 +13,7 @@ import com.cloudthat.basicsecurity.entities.User;
 import java.util.Calendar;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -69,16 +66,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return "valid";
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user;
-        try {
-            user = userRepository.findByEmail(username);
-        } catch (Exception e) {
-            // TODO: handle exception
-            throw new UsernameNotFoundException("User Name Not Found");
-        }
-
-        return user;
-    }
 }

@@ -1,5 +1,6 @@
 package com.cloudthat.basicsecurity.config;
 
+import com.cloudthat.basicsecurity.entities.User;
 import com.cloudthat.basicsecurity.services.UserService;
 import com.cloudthat.basicsecurity.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -20,10 +23,12 @@ import java.security.AuthProvider;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
-    private UserServiceImpl userService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
 
     private static final String[] WHITE_LIST_URLS = {
             "/register",
@@ -38,11 +43,12 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
     public AuthenticationManager authenticationProvider() {
 
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userService);
+        provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
         return new ProviderManager(provider);
     }

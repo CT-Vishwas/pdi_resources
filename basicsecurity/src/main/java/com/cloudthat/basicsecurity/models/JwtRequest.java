@@ -1,5 +1,6 @@
 package com.cloudthat.basicsecurity.models;
 
+
 public class JwtRequest {
 
     private String username;

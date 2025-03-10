@@ -1,5 +1,6 @@
 package com.cloudthat.basicsecurity.filter;
 
+import com.cloudthat.basicsecurity.services.CustomUserDetailsService;
 import com.cloudthat.basicsecurity.services.UserService;
 import com.cloudthat.basicsecurity.services.UserServiceImpl;
 import com.cloudthat.basicsecurity.utilities.JWTUtility;
@@ -22,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private JWTUtility jwtUtility;
 
     @Autowired
-    private UserServiceImpl userService;
+    private CustomUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -43,7 +44,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if(null != userName && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails
-                    = userService.loadUserByUsername(userName);
+                    = userDetailsService.loadUserByUsername(userName);
 
             if(jwtUtility.validateToken(token,userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken

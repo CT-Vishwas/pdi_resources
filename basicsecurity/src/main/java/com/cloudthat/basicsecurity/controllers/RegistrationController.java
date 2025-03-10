@@ -5,6 +5,7 @@ import com.cloudthat.basicsecurity.event.RegistrationCompleteEvent;
 import com.cloudthat.basicsecurity.models.JwtRequest;
 import com.cloudthat.basicsecurity.models.JwtResponse;
 import com.cloudthat.basicsecurity.models.UserModel;
+import com.cloudthat.basicsecurity.services.CustomUserDetailsService;
 import com.cloudthat.basicsecurity.services.UserService;
 import com.cloudthat.basicsecurity.services.UserServiceImpl;
 import com.cloudthat.basicsecurity.utilities.JWTUtility;
@@ -20,16 +21,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.AuthProvider;
+
 
 @RestController
 public class RegistrationController {
 
     @Autowired
-    private UserServiceImpl userService;
+    private CustomUserDetailsService userDetailsService;
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private AuthenticationManager authenticationProvider;
@@ -58,7 +62,7 @@ public class RegistrationController {
         return "http://"+ request.getServerName()+":"+request.getServerPort()+ request.getContextPath();
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticate(@RequestBody JwtRequest jwtRequest) throws Exception{
         UsernamePasswordAuthenticationToken unauthenticatedToken = UsernamePasswordAuthenticationToken.unauthenticated(
                 jwtRequest.getUsername(), jwtRequest.getPassword());
@@ -75,7 +79,7 @@ public class RegistrationController {
         }
 
         final UserDetails userDetails
-                = userService.loadUserByUsername(jwtRequest.getUsername());
+                = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
 
         final String token =
                 jwtUtility.generateToken(userDetails);
