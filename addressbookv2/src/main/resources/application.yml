@@ -1,0 +1,23 @@
+spring:
+    application:
+        name: addressbook
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: root
+        url: jdbc:mysql://localhost:3306/addressbookdb
+        username: root
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+springdoc:
+    api-docs:
+        path: /api-docs
+    swagger-ui:
+        path: /swagger-ui.html
+        try-it-out-enabled: true
+        default-model-expand-depth: -1
+
+logging:
+    level:
+        root: DEBUG
