@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.cloudthat.basicsecurity.entities.User;
 
+import java.util.Calendar;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -40,5 +42,26 @@ public class UserServiceImpl implements UserService {
         // TODO Auto-generated method stub\
         VerificationToken verificationToken = new VerificationToken(token,user);
         verificationTokenRepository.save(verificationToken);
+    }
+
+    @Override
+    public String validateVerificationToken(String token) {
+        // TODO Auto-generated method stub
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        if(verificationToken == null) {
+            return "invalid";
+        }
+
+        User user = verificationToken.getUser();
+        Calendar calendar = Calendar.getInstance();
+
+        if(verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime() <=0) {
+            return "expired";
+        }
+
+        user.setEnabled(true);
+        userRepository.save(user);
+
+        return "valid";
     }
 }
