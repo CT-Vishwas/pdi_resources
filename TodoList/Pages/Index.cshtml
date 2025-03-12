@@ -1,0 +1,26 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">ToDo List</h1>
+    <form method="post" asp-page-handler="Add">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="Task" placeholder="Enter a task" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+        </form>
+    <ul class="list-group">
+        @foreach (var todo in Model.Todos)
+        {
+            <li class="list-group" >
+                <span>@todo.Title</span>
+                <a href="#" class="btn btn-danger btn-sm float-right" asp-page-handler="Delete" asp-route-id="@todo.Id">Delete</a>
+            </li>
+        }
+        </ul>
+</div>
