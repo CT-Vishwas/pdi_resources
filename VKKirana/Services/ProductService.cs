@@ -1,46 +1,39 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using VKKirana.Models;
+using VKKirana.Entities;
+using VKKirana.Models.DTOs;
+using VKKirana.Models.Requests;
 namespace VKKirana.Services;
 
-public static class ProductService
+public class ProductService : IProductService
 {
-    static List<Product> Products { get; }
-    static int nextId = 3;
+    private readonly IProductRepository _productRepository;
+    private readonly IMapper _mapper;
 
-    static ProductService()
+    public ProductService(IProductRepository productRepository, IMapper mapper)
     {
-        Products = new List<Product>
-        {
-            new Product { Id = 1, Name = "Rice", Price = 65.00, Quantity = 100},
-            new Product { Id = 2, Name = "Wheat", Price = 65.00, Quantity = 100}
-        };
+        _productRepository = productRepository;
+        _mapper = mapper;
+
     }
 
-    public static ActionResult<List<Product>> GetAll() => Products;
-
-    public static Product? Get(int id) => Products.FirstOrDefault(p => p.Id == id);
-
-    public static void Add(Product product)
+    public async Task<ProductDto> CreateProduct(CreateProductRequest createProduct)
     {
-        product.Id = nextId++;
-        Products.Add(product);
+        var product = _mapper.Map<Product>(createProduct);
+        await _productRepository.AddAsync(product);
+        var productDto = _mapper.Map<ProductDto>(product);
+        return productDto;
     }
 
-    public static void Update(Product product)
+    public Task<ProductDto> GetProductByIdAsync(Guid id)
     {
-        var index = Products.FindIndex(p => p.Id == product.Id);
-        if (index == -1)
-            return;
-
-        Products[index] = product;
+        throw new NotImplementedException();
     }
 
-    public static void Delete(int id)
+    public async Task<IEnumerable<ProductDto>> GetProductsAsync()
     {
-        var product = Get(id);
-        if (product is null)
-            return;
-
-        Products.Remove(product);
+        var products = await _productRepository.GetAll();
+        var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products);
+        return productDtos;
     }
 }

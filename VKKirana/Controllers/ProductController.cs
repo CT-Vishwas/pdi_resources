@@ -1,71 +1,76 @@
 using Microsoft.AspNetCore.Mvc;
-using VKKirana.Models;
+using VKKirana.Entities;
+using VKKirana.Models.DTOs;
+using VKKirana.Models.Requests;
+using VKKirana.Models.Responses;
 using VKKirana.Services;
 
 namespace VKKirana.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProductController : ControllerBase
 {
-    public ProductController()
-    {
 
+    private readonly IProductService _productService;
+    public ProductController(IProductService productService)
+    {
+        _productService = productService;
     }
 
     // Adding a Product
     [HttpPost]
-    public IActionResult Create(Product product)
+    public async Task<ActionResult<ApiResponse<ProductDto>>> CreateProduct([FromBody] CreateProductRequest request)
     {
-        ProductService.Add(product);
-        return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
+        var result = await _productService.CreateProduct(request);
+        return new ApiResponse<ProductDto>(true, "Product Created Successfully", result);
     }
 
     // Get List of Products
-    [HttpGet]
-    public ActionResult<List<Product>> GetAll() => ProductService.GetAll();
+    // [HttpGet]
+    // public ActionResult<List<Product>> GetAll() => ProductService.GetAll();
 
     // Get a single Product
-    [HttpGet("{id}")]
-    public ActionResult<Product> Get(int id)
-    {
-        var product = ProductService.Get(id);
+    // [HttpGet("{id}")]
+    // public ActionResult<Product> Get(int id)
+    // {
+    //     var product = ProductService.Get(id);
 
-        if (product is null)
-            return NotFound();
+    //     if (product is null)
+    //         return NotFound();
 
-        return product;
-    }
+    //     return product;
+    // }
 
     // Update a Product
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, Product product)
-    {
-        if (id != product.Id)
-            return BadRequest();
+    // [HttpPut("{id}")]
+    // public IActionResult Update(int id, Product product)
+    // {
+    //     if (id != product.Id)
+    //         return BadRequest();
 
-        var exsitingProduct = ProductService.Get(id);
-        if (exsitingProduct is null)
-            return NotFound();
+    //     var exsitingProduct = ProductService.Get(id);
+    //     if (exsitingProduct is null)
+    //         return NotFound();
 
-        ProductService.Update(product);
+    //     ProductService.Update(product);
 
-        return NoContent();
-    }
+    //     return NoContent();
+    // }
 
 
     // Delete a Prduct
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        var product = ProductService.Get(id);
+    // [HttpDelete("{id}")]
+    // public IActionResult Delete(int id)
+    // {
+    //     var product = ProductService.Get(id);
 
-        if (product is null)
-        {
-            return NotFound();
-        }
+    //     if (product is null)
+    //     {
+    //         return NotFound();
+    //     }
 
-        ProductService.Delete(id);
-        return NoContent();
-    }
+    //     ProductService.Delete(id);
+    //     return NoContent();
+    // }
 }
