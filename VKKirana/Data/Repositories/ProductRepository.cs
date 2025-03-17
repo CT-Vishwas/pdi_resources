@@ -53,11 +53,6 @@ public class ProductRepository : IProductRepository
         return AddAsync(product);
     }
 
-    Task<IEnumerable<Product>> IProductRepository.GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
     Task<Product> IProductRepository.GetById(Guid id)
     {
         throw new NotImplementedException();

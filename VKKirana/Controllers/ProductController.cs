@@ -27,8 +27,13 @@ public class ProductController : ControllerBase
     }
 
     // Get List of Products
-    // [HttpGet]
-    // public ActionResult<List<Product>> GetAll() => ProductService.GetAll();
+    [HttpGet]
+    public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetAll()
+    {
+        var result = await _productService.GetProductsAsync();
+        return new ApiResponse<IEnumerable<ProductDto>>(true, "Products Fetched Successfully", result);
+
+    }
 
     // Get a single Product
     // [HttpGet("{id}")]

@@ -36,4 +36,6 @@ public class ProductService : IProductService
         var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products);
         return productDtos;
     }
+
+
 }
