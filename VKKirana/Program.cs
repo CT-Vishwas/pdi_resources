@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VKKirana.Data;
+using VKKirana.Mappings;
 using VKKirana.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
 
-builder.Services.AddAutoMapper(typeof(Program));
+// builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 
 builder.Services.AddControllers();
