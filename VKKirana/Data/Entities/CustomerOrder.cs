@@ -1,13 +1,11 @@
-using System;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
-using VKKirana.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace VKKirana.Data.Entities;
+namespace VKKirana.Entities;
 
 public class CustomerOrder
 {
-
-    public Guid OrderId { get; set; }
+    [Key]
+    public required Guid OrderId { get; set; }
 
     public DateOnly OrderDate { get; set; }
 

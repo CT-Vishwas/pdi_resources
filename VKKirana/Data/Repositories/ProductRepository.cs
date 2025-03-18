@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using VKKirana.Data;
 using VKKirana.Entities;
 
-
+namespace VKKirana.Repositories;
 public class ProductRepository : IProductRepository
 {
     private readonly AppDbContext _context;
@@ -20,6 +20,11 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
+    public async Task<IEnumerable<Product>> GetProductsAsync()
+    {
+        return await _context.Products.ToListAsync();
+    }
+
     public async Task DeleteAsync(Guid id)
     {
         var product = await _context.Products.FindAsync(id);
@@ -33,28 +38,23 @@ public class ProductRepository : IProductRepository
         return;
     }
 
-    public async Task<IEnumerable<Product>> GetAll()
+
+
+    public async Task<Product> GetByIdAsync(Guid id)
     {
-        return await _context.Products.ToListAsync();
+        return await _context.Products.FindAsync(id)!;
     }
 
-    public Product GetById(Guid id)
+    public async Task UpdateAsync(Product product)
     {
-        throw new NotImplementedException();
+        var existingProduct = await _context.Products.FindAsync(product.Id);
+        if (existingProduct is null)
+        {
+            throw new KeyNotFoundException("Product not found");
+        }
+
+        _context.Entry(existingProduct).CurrentValues.SetValues(product);
+        await _context.SaveChangesAsync();
     }
 
-    public Task Update(Product product)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IProductRepository.AddAsync(Product product)
-    {
-        return AddAsync(product);
-    }
-
-    Task<Product> IProductRepository.GetById(Guid id)
-    {
-        throw new NotImplementedException();
-    }
 }

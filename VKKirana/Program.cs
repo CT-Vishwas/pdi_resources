@@ -4,6 +4,7 @@ using VKKirana.Data;
 using VKKirana.Mappings;
 using VKKirana.Middlewares;
 using VKKirana.Services;
+using VKKirana.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddScoped<ICustomerOrderRepository, CustomerOrderRepository>();
+builder.Services.AddScoped<ICustomerOrderService, CustomerOrderService>();
 
 // builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

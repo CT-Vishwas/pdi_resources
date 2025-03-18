@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace VKKirana.Data.Entities;
+namespace VKKirana.Entities;
 
 public class OrderStatus
 {

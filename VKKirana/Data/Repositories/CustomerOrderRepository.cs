@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VKKirana.Data.Entities;
+using VKKirana.Data;
+using VKKirana.Entities;
 
-namespace VKKirana.Data.Repositories
-{
+namespace VKKirana.Repositories;
     public class CustomerOrderRepository : ICustomerOrderRepository
     {
         private readonly AppDbContext _context;
@@ -20,7 +17,7 @@ namespace VKKirana.Data.Repositories
             return await _context.CustomerOrders.ToListAsync();
         }
 
-        public async Task<CustomerOrder> GetOrderByIdAsync(int orderId)
+        public async Task<CustomerOrder> GetOrderByIdAsync(Guid orderId)
         {
             return await _context.CustomerOrders.FindAsync(orderId);
         }
@@ -37,7 +34,7 @@ namespace VKKirana.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteOrderAsync(int orderId)
+        public async Task DeleteOrderAsync(Guid orderId)
         {
             var order = await _context.CustomerOrders.FindAsync(orderId);
             if (order != null)
@@ -46,5 +43,4 @@ namespace VKKirana.Data.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-    }
 }

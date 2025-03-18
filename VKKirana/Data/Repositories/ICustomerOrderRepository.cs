@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VKKirana.Data.Entities;
+using VKKirana.Entities;
 
-namespace VKKirana.Data.Repositories
+namespace VKKirana.Repositories
 {
     public interface ICustomerOrderRepository
     {
         Task<IEnumerable<CustomerOrder>> GetAllOrdersAsync();
-        Task<CustomerOrder> GetOrderByIdAsync(int orderId);
+        Task<CustomerOrder> GetOrderByIdAsync(Guid orderId);
         Task AddOrderAsync(CustomerOrder order);
         Task UpdateOrderAsync(CustomerOrder order);
-        Task DeleteOrderAsync(int orderId);
+        Task DeleteOrderAsync(Guid orderId);
     }
 }

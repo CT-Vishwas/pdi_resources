@@ -34,15 +34,15 @@ public class ProductController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var result = await _productService.GetProductsAsync();
+        var result = await _productService.GetAll();
         return Ok(new ApiResponse<IEnumerable<ProductDto>>(true, "Products Fetched Successfully", result));
     }
 
     // Get a Product by Id
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        var result = await _productService.GetProductByIdAsync(id);
+        var result = await _productService.GetById(id);
         if (result == null)
         {
             return NotFound(new ApiResponse<ProductDto>(false, "Product Not Found", null));
@@ -52,9 +52,9 @@ public class ProductController : ControllerBase
 
     // Update a Product
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductRequest request)
+    public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] UpdateProductRequest request)
     {
-        var result = await _productService.UpdateProductAsync(id, request);
+        var result = await _productService.UpdateProduct(id, request);
         if (result == null)
         {
             return NotFound(new ApiResponse<ProductDto>(false, "Product Not Found", null));
@@ -64,7 +64,7 @@ public class ProductController : ControllerBase
 
     // Delete a Product
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProduct(int id)
+    public async Task<IActionResult> DeleteProduct(Guid id)
     {
         var result = await _productService.DeleteProductAsync(id);
         if (!result)

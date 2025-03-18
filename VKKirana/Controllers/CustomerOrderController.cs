@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using VKKirana.Data.Entities;
+
 using VKKirana.Models.DTOs;
 using VKKirana.Models.Requests;
 using VKKirana.Models.Responses;
 using VKKirana.Services;
-using VKKirana.Data.Repositories;
 
 namespace VKKirana.Controllers;
 
@@ -31,15 +30,15 @@ public class CustomerOrderController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<ApiResponse<IEnumerable<CustomerOrderDto>>>> GetAll()
     {
-        var result = await _customerOrderService.GetCustomerOrdersAsync();
+        var result = await _customerOrderService.GetAll();
         return new ApiResponse<IEnumerable<CustomerOrderDto>>(true, "Customer Orders Fetched Successfully", result);
     }
 
     // Get a single Customer Order
     [HttpGet("{id}")]
-    public async Task<ActionResult<ApiResponse<CustomerOrderDto>>> Get(int id)
+    public async Task<ActionResult<ApiResponse<CustomerOrderDto>>> GetOrder(Guid id)
     {
-        var result = await _customerOrderService.GetCustomerOrderByIdAsync(id);
+        var result = await _customerOrderService.GetOrder(id);
         if (result == null)
         {
             return NotFound(new ApiResponse<CustomerOrderDto>(false, "Customer Order Not Found", null));
@@ -49,14 +48,14 @@ public class CustomerOrderController : ControllerBase
 
     // Update a Customer Order
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] UpdateCustomerOrderRequest request)
+    public async Task<IActionResult> UpdateCustomerOrder(Guid id, [FromBody] UpdateCustomerOrderRequest request)
     {
-        if (id != request.Id)
+        if (id != request.OrderId)
         {
             return BadRequest(new ApiResponse<CustomerOrderDto>(false, "Invalid Customer Order Id", null));
         }
 
-        var result = await _customerOrderService.UpdateCustomerOrderAsync(request);
+        var result = await _customerOrderService.UpdateCustomerOrder(request);
         if (result == null)
         {
             return NotFound(new ApiResponse<CustomerOrderDto>(false, "Customer Order Not Found", null));
@@ -67,7 +66,7 @@ public class CustomerOrderController : ControllerBase
 
     // Delete a Customer Order
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var result = await _customerOrderService.DeleteCustomerOrderAsync(id);
         if (!result)

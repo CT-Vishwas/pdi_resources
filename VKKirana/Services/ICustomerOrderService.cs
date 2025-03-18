@@ -5,7 +5,9 @@ namespace VKKirana.Services;
 
 public interface ICustomerOrderService
 {
-    Task<IEnumerable<CustomerOrderDto>> GetCustomerOrdersAsync();
-    Task<CustomerOrderDto> GetCustomerOrderByIdAsync(Guid id);
+    Task<IEnumerable<CustomerOrderDto>> GetAll();
+    Task<CustomerOrderDto> GetOrder(Guid id);
     Task<CustomerOrderDto> CreateCustomerOrder(CreateCustomerOrderRequest createCustomerOrder);
+    Task<CustomerOrderDto> UpdateCustomerOrder(UpdateCustomerOrderRequest request);
+    Task<bool> DeleteCustomerOrderAsync(Guid id);
 }
