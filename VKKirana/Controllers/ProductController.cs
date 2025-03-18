@@ -20,62 +20,57 @@ public class ProductController : ControllerBase
 
     // Adding a Product
     [HttpPost]
-    public async Task<ActionResult<ApiResponse<ProductDto>>> CreateProduct([FromBody] CreateProductRequest request)
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest request)
     {
         var result = await _productService.CreateProduct(request);
-        return new ApiResponse<ProductDto>(true, "Product Created Successfully", result);
+        if (result == null)
+        {
+            return BadRequest(new ApiResponse<ProductDto>(false, "Product Creation Failed", null));
+        }
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, new ApiResponse<ProductDto>(true, "Product Created Successfully", result));
     }
 
     // Get List of Products
     [HttpGet]
-    public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
         var result = await _productService.GetProductsAsync();
-        return new ApiResponse<IEnumerable<ProductDto>>(true, "Products Fetched Successfully", result);
-
+        return Ok(new ApiResponse<IEnumerable<ProductDto>>(true, "Products Fetched Successfully", result));
     }
 
-    // Get a single Product
-    // [HttpGet("{id}")]
-    // public ActionResult<Product> Get(int id)
-    // {
-    //     var product = ProductService.Get(id);
-
-    //     if (product is null)
-    //         return NotFound();
-
-    //     return product;
-    // }
+    // Get a Product by Id
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var result = await _productService.GetProductByIdAsync(id);
+        if (result == null)
+        {
+            return NotFound(new ApiResponse<ProductDto>(false, "Product Not Found", null));
+        }
+        return Ok(new ApiResponse<ProductDto>(true, "Product Fetched Successfully", result));
+    }
 
     // Update a Product
-    // [HttpPut("{id}")]
-    // public IActionResult Update(int id, Product product)
-    // {
-    //     if (id != product.Id)
-    //         return BadRequest();
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductRequest request)
+    {
+        var result = await _productService.UpdateProductAsync(id, request);
+        if (result == null)
+        {
+            return NotFound(new ApiResponse<ProductDto>(false, "Product Not Found", null));
+        }
+        return Ok(new ApiResponse<ProductDto>(true, "Product Updated Successfully", result));
+    }
 
-    //     var exsitingProduct = ProductService.Get(id);
-    //     if (exsitingProduct is null)
-    //         return NotFound();
-
-    //     ProductService.Update(product);
-
-    //     return NoContent();
-    // }
-
-
-    // Delete a Prduct
-    // [HttpDelete("{id}")]
-    // public IActionResult Delete(int id)
-    // {
-    //     var product = ProductService.Get(id);
-
-    //     if (product is null)
-    //     {
-    //         return NotFound();
-    //     }
-
-    //     ProductService.Delete(id);
-    //     return NoContent();
-    // }
+    // Delete a Product
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduct(int id)
+    {
+        var result = await _productService.DeleteProductAsync(id);
+        if (!result)
+        {
+            return NotFound(new ApiResponse<bool>(false, "Product Not Found", false));
+        }
+        return Ok(new ApiResponse<bool>(true, "Product Deleted Successfully", true));
+    }
 }
