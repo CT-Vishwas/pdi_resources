@@ -28,7 +28,7 @@ public class Product
     public List<Category>? Categories { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public DateTime CreatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; } = DateTimeOffset.UtcNow ;
     
     public List<CustomerOrder> CustomerOrders { get; } = [];
 }

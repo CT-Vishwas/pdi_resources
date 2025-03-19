@@ -9,12 +9,18 @@ namespace VKKirana.Services;
 public class CustomerOrderService : ICustomerOrderService
 {
     private readonly ICustomerOrderRepository _customerOrderRepository;
+
+    private readonly ICustomerRepository _customerRepository;
+
+    private readonly IPaymentExternalService _paymentService;
     private readonly IMapper _mapper;
 
-    public CustomerOrderService(ICustomerOrderRepository customerOrderRepository, IMapper mapper)
+    public CustomerOrderService(ICustomerOrderRepository customerOrderRepository, IMapper mapper, PaymentExternalService payment, ICustomerRepository customerRepository)
     {
         _customerOrderRepository = customerOrderRepository;
         _mapper = mapper;
+        _paymentService = payment;
+        _customerRepository = customerRepository;
     }
 
 
@@ -23,6 +29,18 @@ public class CustomerOrderService : ICustomerOrderService
         var customerOrder = _mapper.Map<CustomerOrder>(createCustomerOrder);
         await _customerOrderRepository.AddOrderAsync(customerOrder);
         var customerOrderDto = _mapper.Map<CustomerOrderDto>(customerOrder);
+
+        var customer = await _customerRepository.GetByIdAsync(createCustomerOrder.CustomerId);
+        var customerCard = customer?.CustomerCard;
+
+        var paymentRequest = new PaymentRequest(
+            customerOrder.TotalAmount,
+            customerCard?.Currency,
+            customerCard?.CardNumber,
+            customerCard?.ExpiryMonth + "/"+customerCard.ExpiryYear,
+            customerCard?.Cvv
+        );
+        var payment = await _paymentService.DoPayment();
         return customerOrderDto;
     }
 

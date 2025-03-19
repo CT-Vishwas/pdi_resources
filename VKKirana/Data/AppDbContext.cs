@@ -26,7 +26,7 @@ public class AppDbContext : DbContext
             .HasConversion(
                 new ValueConverter<List<Category>, string>(
                     value => JsonSerializer.Serialize(value, (JsonSerializerOptions?)null),
-                    value => JsonSerializer.Deserialize<List<Category>>(value, (JsonSerializerOptions?)null) ?? new List<Category>()
+                    static value => JsonSerializer.Deserialize<List<Category>>(value, (JsonSerializerOptions?)null) ?? new List<Category>()
                 )
             )
             .Metadata.SetValueComparer(
@@ -36,9 +36,6 @@ public class AppDbContext : DbContext
                     c => c.ToList()
                 )
             );
-        modelBuilder.Entity<Product>()
-            .Property(b => b.CreatedAt)
-            .HasDefaultValueSql("GETUTCDATE()");
 
         modelBuilder.Entity<CustomerOrder>()
             .HasMany(e => e.OrderItems)
