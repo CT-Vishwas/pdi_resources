@@ -5,6 +5,7 @@ using AutoMapper.Execution;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using VKKirana.Data.Entities;
 using VKKirana.Entities;
 
 
@@ -17,6 +18,8 @@ public class AppDbContext : DbContext
     public DbSet<Product> Products { get; set; }
 
     public DbSet<CustomerOrder> CustomerOrders { get; set; }
+
+    public DbSet<PaymentDetails> PaymentDetails { get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

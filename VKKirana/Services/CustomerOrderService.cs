@@ -1,4 +1,7 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using VKKirana.Data.Entities;
+using VKKirana.Data.Repositories;
 using VKKirana.Entities;
 using VKKirana.Models.DTOs;
 using VKKirana.Models.Requests;
@@ -12,15 +15,18 @@ public class CustomerOrderService : ICustomerOrderService
 
     private readonly ICustomerRepository _customerRepository;
 
+    private readonly IPaymentDetailsRepository _paymentDetailsRepository;
+
     private readonly IPaymentExternalService _paymentService;
     private readonly IMapper _mapper;
 
-    public CustomerOrderService(ICustomerOrderRepository customerOrderRepository, IMapper mapper, PaymentExternalService payment, ICustomerRepository customerRepository)
+    public CustomerOrderService(ICustomerOrderRepository customerOrderRepository, IMapper mapper, IPaymentExternalService payment, ICustomerRepository customerRepository, IPaymentDetailsRepository paymentDetailsRepository)
     {
         _customerOrderRepository = customerOrderRepository;
         _mapper = mapper;
         _paymentService = payment;
         _customerRepository = customerRepository;
+        _paymentDetailsRepository = paymentDetailsRepository;
     }
 
 
@@ -37,10 +43,23 @@ public class CustomerOrderService : ICustomerOrderService
             customerOrder.TotalAmount,
             customerCard?.Currency,
             customerCard?.CardNumber,
-            customerCard?.ExpiryMonth + "/"+customerCard.ExpiryYear,
+            customerCard?.ExpiryMonth + "/"+customerCard?.ExpiryYear,
             customerCard?.Cvv
         );
-        var payment = await _paymentService.DoPayment();
+        var payment = await _paymentService.DoPayment(paymentRequest);
+        var paymentDetails = new PaymentDetails(
+            payment.TransactionId,
+            customer.CustomerId,
+            payment.Status,
+            customerOrder.TotalAmount
+        );
+        var savedDetails = await _paymentDetailsRepository.AddAsync(paymentDetails);
+
+        if( savedDetails == null)
+        {
+            throw new ApplicationException("Failed to update payment details");
+        }
+
         return customerOrderDto;
     }
 
